@@ -1,0 +1,3 @@
+mpich device=ch3 +hydra netmod=tcp ~pci pmi=pmi +romio ~slurm
+mvapich2 +cuda
+openmpi +atomics +cuda +thread_multiple ~vt ~static

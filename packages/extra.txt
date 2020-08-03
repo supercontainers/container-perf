@@ -1,0 +1,1 @@
+timemory@develop +tools +cuda +cupti +gotcha +mpi +mpip_library +papi +gperftools cuda_arch=volta

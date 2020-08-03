@@ -1,0 +1,6 @@
+.vscode
+.spack-env
+packages/*/Dockerfile*
+packages/*/spack.yaml
+packages/*/*.sh
+*~

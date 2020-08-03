@@ -1,0 +1,48 @@
+spack:
+  specs:
+    - cuda
+    - kokkos build_type=Release +cuda cuda_arch=72 +cuda_lambda +cuda_uvm +hwloc +memkind +numactl +openmp +wrapper std=14
+    - @MPI_SPEC@
+    @EXTRA_SPEC@
+
+  container:
+    # Select the format of the recipe e.g. docker,
+    # singularity or anything else that is currently supported
+    format: docker
+
+    # Select from a valid list of images
+    base:
+      image: "@OS_SPEC@"
+      spack: develop
+
+    # Whether or not to strip binaries
+    strip: false
+
+    # Extra instructions
+    extra_instructions:
+      build: |
+        SHELL ["/bin/bash", "--rcfile", "/etc/profile", "-l"]
+        WORKDIR /tmp
+        RUN git clone https://github.com/jrmadsen/kokkos-miniapps.git && \
+            cd kokkos-miniapps && \
+            git checkout submodules && \
+            mkdir -p build-container && \
+            cd build-container && \
+            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_CXX_COMPILER=nvcc_wrapper -DUSE_MPI=ON .. && \
+            make install -j8 && \
+            cd /tmp && \
+            rm -rf /tmp/kokkos-miniapps
+      final: |
+        ENV OMP_PROC_BIND spread
+        ENV OMP_PLACES threads
+        ENV CUDA_HOME "/opt/view"
+        ENV NVIDIA_REQUIRE_CUDA "cuda>=10.2"
+        ENV NVIDIA_VISIBLE_DEVICES "all"
+        ENV NVIDIA_DRIVER_CAPABILITIES "compute,utility"
+        COPY ./runtime-entrypoint.sh /runtime-entrypoint.sh
+        RUN echo 'export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][@APP_NAME@-@MPI_NAME@]\[$(tput setaf 2)\]\u\[$(tput sgr0)\]:\w $ \[$(tput sgr0)\]"' >> ~/.bashrc
+
+    # Labels for the image
+    labels:
+      app: "@APP_NAME@"
+      mpi: "@MPI_NAME@"
