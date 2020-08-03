@@ -47,6 +47,7 @@ RUN mkdir /opt/spack-environment \
 &&   echo "  - cuda" \
 &&   echo "  - kokkos build_type=Release +cuda cuda_arch=72 +cuda_lambda +cuda_uvm +hwloc +memkind +numactl +openmp +wrapper std=14" \
 &&   echo "  - mpich device=ch3 +hydra netmod=tcp ~pci pmi=pmi +romio ~slurm" \
+&&   echo "  - timemory@develop +tools +cuda +cupti +gotcha +mpi +mpip_library +papi +gperftools cuda_arch=volta" \
 &&   echo "  concretization: together" \
 &&   echo "  config:" \
 &&   echo "    install_tree: /opt/software" \
