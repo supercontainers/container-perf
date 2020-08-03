@@ -1,8 +1,8 @@
 #!/bin/bash --rcfile /etc/profile -l
 
-#------------------------------------------------------------------------------#
-#   run command
-#------------------------------------------------------------------------------#
+# The purpose of this entrypoint is to embed some lightweight
+# performance monitoring in the application
+#
 if [ -z "${1}" ]; then
     exec /bin/bash -l
 fi

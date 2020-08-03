@@ -1,11 +1,17 @@
 #!/bin/bash -e
 
-if [ -f extra.txt ]; then
-    while read line
-    do
-        EXTRA_SPEC="${EXTRA_SPEC}- ${line}$(echo '')    "
-    done < extra.txt
-fi
+# supply any text files to append to the build
+# one spec per line
+: ${ARGS:="$@"}
+for i in ${ARGS}
+do
+    if [ -f ${i} ]; then
+        while read line
+        do
+            EXTRA_SPEC="${EXTRA_SPEC}- ${line}$(echo '')    "
+        done < ${i}
+    fi
+done
 
 TARG_DIR=${PWD}
 while read OS_SPEC
@@ -20,7 +26,7 @@ do
         cp ./runtime-entrypoint.sh ./${MPI_NAME}
         pushd ./${MPI_NAME}
         rm -rf .spack-env
-        rm -f spack.yaml*
+        rm -f spack.yaml
         rm -f Dockerfile.${OS_NAME}
         cat ${TARG_DIR}/spack.yaml.in | sed \
             -e s,'@MPI_SPEC@',"${MPI_SPEC}",g \
@@ -35,6 +41,7 @@ do
             > Dockerfile.${OS_NAME}
         echo 'ENTRYPOINT [ "/runtime-entrypoint.sh" ]' >> Dockerfile.${OS_NAME}
         rm -rf .spack-env
+        rm -f spack.yaml
         popd
     done < mpi.txt
 done < os.txt
