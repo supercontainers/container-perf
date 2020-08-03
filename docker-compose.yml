@@ -2,7 +2,7 @@ version: "3.3"
 # Building: docker-compose build --pull --parallel <service>
 services:
   ubuntu-mpich:
-    image: jrmadsen/container-perf:ubuntu-mpich
+    image: supercontainers/container-perf:ubuntu-mpich
     stdin_open: true
     tty: true
     build:
@@ -10,7 +10,7 @@ services:
       dockerfile: Dockerfile.ubuntu
 
   ubuntu-openmpi:
-    image: jrmadsen/container-perf:ubuntu-openmpi
+    image: supercontainers/container-perf:ubuntu-openmpi
     stdin_open: true
     tty: true
     build:
@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile.ubuntu
 
   ubuntu-mvapich:
-    image: jrmadsen/container-perf:ubuntu-mvapich
+    image: supercontainers/container-perf:ubuntu-mvapich
     stdin_open: true
     tty: true
     build:
@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile.ubuntu
 
   centos-mpich:
-    image: jrmadsen/container-perf:centos-mpich
+    image: supercontainers/container-perf:centos-mpich
     stdin_open: true
     tty: true
     build:
@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile.centos
 
   centos-openmpi:
-    image: jrmadsen/container-perf:centos-openmpi
+    image: supercontainers/container-perf:centos-openmpi
     stdin_open: true
     tty: true
     build:
@@ -42,7 +42,7 @@ services:
       dockerfile: Dockerfile.centos
 
   centos-mvapich:
-    image: jrmadsen/container-perf:centos-mvapich
+    image: supercontainers/container-perf:centos-mvapich
     stdin_open: true
     tty: true
     build:
